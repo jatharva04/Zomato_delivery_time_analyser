@@ -1,0 +1,13 @@
+dvc remote add -d myremote gdrive://1FeAjZo2-7E8cfG8RNQvdaLnw3n0bR8gK
+
+client id :
+178551701615-o22v6grbbuvq6c1v4pg2rbvpi0hl21md.apps.googleusercontent.com
+
+secret id:
+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
+
+# Command to add your Client ID
+dvc remote modify myremote gdrive_client_id 178551701615-o22v6grbbuvq6c1v4pg2rbvpi0hl21md.apps.googleusercontent.com
+
+# Command to add your Client Secret
+dvc remote modify myremote gdrive_client_secret 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

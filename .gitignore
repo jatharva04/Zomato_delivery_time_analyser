@@ -1,0 +1,19 @@
+# Python virtual environment
+venv/
+env/
+__pycache__/
+
+# DVC internal cache - VERY IMPORTANT
+.dvc/cache
+.dvc/tmp
+
+# Data files tracked by DVC - The reason we are doing this!
+/Zomato_Data.csv
+
+# IDE and OS specific files
+.idea/
+.vscode/
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
