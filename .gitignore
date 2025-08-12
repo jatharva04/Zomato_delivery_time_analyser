@@ -8,7 +8,7 @@ __pycache__/
 .dvc/tmp
 
 # Data files tracked by DVC - The reason we are doing this!
-/Zomato_Data.csv
+# /Zomato_Data.csv
 
 # IDE and OS specific files
 .idea/
