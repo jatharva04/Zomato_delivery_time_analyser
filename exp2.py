@@ -79,5 +79,5 @@ print("Validation Results:", results)
 # =========================
 df.to_csv(csv_path, index=False)
 
-print(f"✅ Cleaning complete. File saved: {csv_path}")
+print(f"Cleaning complete. File saved: {csv_path}")
 print("➡ Now run: dvc add", csv_path, "&& git commit -m 'Cleaned data' && dvc push")
