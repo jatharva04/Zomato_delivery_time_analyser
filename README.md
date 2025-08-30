@@ -13,7 +13,7 @@ A data science project to analyze the factors influencing Zomato's food delivery
 - document findings from the EDA to inform the development of a predictive model
 
 ## 📂 Project Structure
-
+```
 The repository is organized into a standard data science project structure:
 ├── .dvc/                  <- DVC internal files
 ├── data/                  <- DVC-tracked data and .dvc files
@@ -21,3 +21,4 @@ The repository is organized into a standard data science project structure:
 ├── reports/               <- Generated reports like data profiles
 ├── .gitignore             <- Files to be ignored by Git
 ├── README.md              <- Project documentation
+```
