@@ -1,7 +1,7 @@
 [core]
-    no_scm = True
+    no_scm = false
     remote = myremote
 ['remote "myremote"']
     url = gdrive://1FeAjZo2-7E8cfG8RNQvdaLnw3n0bR8gK
-    gdrive_client_id = 178551701615-o22v6grbbuvq6c1v4pg2rbvpi0hl21md.apps.googleusercontent.com
-    gdrive_client_secret = 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
+    gdrive_client_id = 178551701615-9f8di2ohoe1ucketr0gjr6h062ronudj.apps.googleusercontent.com
+    gdrive_client_secret = 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

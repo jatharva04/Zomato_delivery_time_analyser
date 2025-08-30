@@ -1,3 +1,24 @@
+pip install dvc
+
+git init # to initialize git repo 
+
+dvc init # to initialize dvc repo
+
+dvc add Zomato_Data.csv
+# .dvc and .dvcignore and data.csv.dvc will be created
+
+git commit
+
+dvc pull --force # to get prev version
+
+# to find all versions of data
+git log
+Check out a specific version by its commit hash
+git checkout 1234asd23
+Pull the corresponding data or model version:
+dvc pull
+
+
 dvc remote add -d myremote gdrive://1FeAjZo2-7E8cfG8RNQvdaLnw3n0bR8gK
 
 client id :
@@ -11,3 +32,15 @@ dvc remote modify myremote gdrive_client_id 178551701615-o22v6grbbuvq6c1v4pg2rbv
 
 # Command to add your Client Secret
 dvc remote modify myremote gdrive_client_secret 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
+
+dvc push # to update gdrive
+
+
+# new client id
+178551701615-9f8di2ohoe1ucketr0gjr6h062ronudj.apps.googleusercontent.com
+dvc remote modify myremote gdrive_client_id 178551701615-9f8di2ohoe1ucketr0gjr6h062ronudj.apps.googleusercontent.com
+
+# new secret id
+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
+dvc remote modify myremote gdrive_client_secret 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
+
