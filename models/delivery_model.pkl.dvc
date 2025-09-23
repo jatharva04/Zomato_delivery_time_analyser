@@ -1,0 +1,5 @@
+outs:
+- md5: 97dabd0e6a7eef09eb05db782262279b
+  size: 176436522
+  hash: md5
+  path: delivery_model.pkl
