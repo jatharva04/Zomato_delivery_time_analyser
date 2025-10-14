@@ -1,0 +1,9 @@
+# Web server and API framework
+fastapi
+uvicorn[standard]
+pydantic
+
+# Data handling and machine learning
+pandas
+scikit-learn==1.6.1  # Pin the version to match your training environment
+joblib

@@ -1,0 +1,10 @@
+artifact_location: file:///D:/projects/sahil/Zomato_delivery_time_analyser/mlruns/508289105804883608/models/m-6b3ece63075d41f990f170995b296e50/artifacts
+creation_timestamp: 1758662130786
+experiment_id: '508289105804883608'
+last_updated_timestamp: 1758662143514
+model_id: m-6b3ece63075d41f990f170995b296e50
+model_type: null
+name: tuned_rf_from_colab
+source_run_id: 311a6697758547a58fb63e87b8002d4f
+status: 2
+status_message: null

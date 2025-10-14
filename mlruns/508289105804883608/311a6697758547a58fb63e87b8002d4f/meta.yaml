@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/projects/sahil/Zomato_delivery_time_analyser/mlruns/508289105804883608/311a6697758547a58fb63e87b8002d4f/artifacts
+end_time: 1758662143579
+entry_point_name: ''
+experiment_id: '508289105804883608'
+lifecycle_stage: active
+run_id: 311a6697758547a58fb63e87b8002d4f
+run_name: Tuned RF (trained on Colab)
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1758662130606
+status: 3
+tags: []
+user_id: Sahil

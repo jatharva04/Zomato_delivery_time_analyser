@@ -1,26 +1,22 @@
 # Use an official Python runtime as a parent image
-# We use a slim-buster image for a smaller final image size
-FROM python:3.11-slim-buster
+# Use an official Python runtime as a parent image
+FROM python:3.12-slim
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the dependency files first. This allows Docker to cache the layer
-# if only main.py changes, speeding up subsequent builds.
+# Copy the requirements file first for better caching
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
-# This includes main.py, and the model file (delivery_model.pkl) 
-# created by the demo code if it exists locally.
+# Copy the rest of your application code
+# (This includes main.py and the 'models/' directory)
 COPY . .
 
 # Expose the port on which the FastAPI application will run
 EXPOSE 8000
 
-# Command to run the application using Uvicorn
-# The --host 0.0.0.0 is crucial for listening on all interfaces 
-# within the container so it can be accessed externally.
+# Define the command to run your app when the container starts
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

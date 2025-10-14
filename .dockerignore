@@ -1,0 +1,22 @@
+# Ignore Python's virtual environment
+venv/
+env/
+
+# Ignore DVC's internal cache and raw data
+.dvc/
+data/
+*.csv
+*.json
+
+# Ignore MLflow experiment results
+mlruns/
+
+# Ignore Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Ignore Git directory
+.git/
+
+# Ignore Python cache
+__pycache__/

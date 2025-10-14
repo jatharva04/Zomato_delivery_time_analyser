@@ -10,4 +10,4 @@ data = {
 }
 
 response = requests.post("http://localhost:8080/predict", json=data)
-print(response.json())    
+print(response.json())

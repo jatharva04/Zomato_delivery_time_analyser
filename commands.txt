@@ -44,3 +44,39 @@ dvc remote modify myremote gdrive_client_id 178551701615-9f8di2ohoe1ucketr0gjr6h
 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
 dvc remote modify myremote gdrive_client_secret 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
 
+Best parameters found: {'regressor__max_depth': 20, 'regressor__min_samples_split': 10, 'regressor__n_estimators': 300}
+New Tuned Random Forest RMSE on test set: 3.9503
+
+
+----------------------DOCKER------------------------
+1. Build the Docker Image:
+This command builds your application into an image named zomato-api
+
+docker build -t zomato-api .
+
+2. Run the Docker Container:
+This command starts your API.
+
+docker run -d -p 8000:8000 zomato-api
+
+3. Test the API (Your "Local Test Evidence"):
+http://localhost:8000/docs
+You will see the interactive API documentation where you can test the /predict endpoint directly
+
+# List all containers (even stopped ones)
+docker ps -a
+
+1. Stop the current container:
+First, find the ID of your running container and stop it.
+
+
+# Find the ID of the running container
+docker ps
+
+# Stop it (replace <container_id> with the actual ID)
+docker stop <container_id>
+2. Run the container in the foreground:
+Now, run the container again, but without the -d flag. This will show you a live stream of the logs in your terminal.
+
+
+docker run -p 8000:8000 zomato-api
