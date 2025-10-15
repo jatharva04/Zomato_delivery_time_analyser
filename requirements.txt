@@ -7,3 +7,7 @@ pydantic
 pandas
 scikit-learn==1.6.1  # Pin the version to match your training environment
 joblib
+
+mlflow
+streamlit
+shap
