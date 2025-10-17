@@ -18,3 +18,4 @@ __pycache__/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 delivery_model.pkl
+downloaded_delivery_model.pkl

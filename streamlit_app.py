@@ -5,6 +5,8 @@ import shap
 import streamlit.components.v1 as components
 from sklearn.base import BaseEstimator, TransformerMixin
 import sys
+import gdown
+import os
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -14,7 +16,7 @@ st.set_page_config(
 )
 
 # --- Custom Transformer Class ---
-# This class MUST be defined so joblib can load the model pipeline
+# This class MUST be defined for joblib to load the model pipeline
 class DatetimeFeatureExtractor(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None): return self
     def transform(self, X, y=None):
@@ -37,17 +39,29 @@ def st_shap(plot, height=None):
     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
     components.html(shap_html, height=height)
 
-# --- Load Model ---
+# --- Load Model from Google Drive ---
 @st.cache_resource
 def load_model():
+    """Downloads the model from Google Drive and loads it into memory."""
+    model_path = 'downloaded_delivery_model.pkl'
+    if not os.path.exists(model_path):
+        try:
+            file_id = "1lxKbEETo7BBQm5QHIhvWl1yZ4RPwcZQD"
+            gdown.download(id=file_id, output=model_path, quiet=False)
+        except Exception as e:
+            st.error(f"Error downloading model: {e}")
+            return None
     try:
-        model_pipeline = joblib.load('models/delivery_model.pkl')
+        model_pipeline = joblib.load(model_path)
         return model_pipeline
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
 
-model_pipeline = load_model()
+# --- App Initialization ---
+# Use a spinner to show the model is loading and prevent the "Downloading" message from sticking
+with st.spinner("Loading the AI model, please wait... (this may take a minute on the first start)"):
+    model_pipeline = load_model()
 
 # --- Initialize Session State ---
 if 'prediction' not in st.session_state:
@@ -70,7 +84,6 @@ if page == "Problem Statement":
     An inaccurate ETA can lead to frustrated customers and operational inefficiencies. This project aims to solve this challenge by building a
     machine learning model that can predict the delivery time of a Zomato order with high accuracy.
     """)
-
     st.header("The Goal")
     st.markdown("""
     The primary objective is to develop a tool that takes various factors into account—such as the delivery person's age and ratings,
@@ -85,7 +98,6 @@ elif page == "Prediction App":
     st.title("🔮 Prediction App")
     st.markdown("Enter the order details in the sidebar to get a delivery time prediction.")
 
-    # --- Sidebar for User Inputs ---
     with st.sidebar:
         st.header("Enter Order Details:")
         age = st.number_input("Delivery Person Age", min_value=18, max_value=50, value=35)
@@ -97,7 +109,6 @@ elif page == "Prediction App":
         city = st.selectbox("City Type", ['Metropolitian', 'Urban', 'Semi-Urban'])
         predict_button = st.button("Predict Delivery Time", type="primary")
 
-    # --- Logic for the predict button ---
     if predict_button and model_pipeline:
         input_data = {
             'Delivery_person_Age': age, 'Delivery_person_Ratings': ratings,
@@ -110,32 +121,26 @@ elif page == "Prediction App":
             'distance (km)': distance
         }
         input_df = pd.DataFrame([input_data])
-
         prediction = model_pipeline.predict(input_df)
         preprocessor = model_pipeline.named_steps['preprocessor']
         model = model_pipeline.named_steps['regressor']
         transformed_data = preprocessor.transform(input_df)
         explainer = shap.TreeExplainer(model)
         shap_values = explainer(transformed_data)
-        
         plot = shap.force_plot(
             explainer.expected_value, shap_values.values[0,:],
             features=transformed_data[0,:], feature_names=preprocessor.get_feature_names_out()
         )
-        
         st.session_state.prediction = prediction[0]
         st.session_state.shap_plot = plot
-
-    # --- Main Page Display ---
+    
     col1, col2 = st.columns([1, 1])
-
     with col1:
         st.header("Real-Time Prediction")
         if st.session_state.prediction is not None:
             st.metric(label="Predicted Delivery Time", value=f"{st.session_state.prediction:.2f} minutes")
         else:
             st.info("Enter details and click 'Predict' to see the results.")
-
     with col2:
         st.header("Model Performance")
         st.markdown("The model was evaluated using **Root Mean Squared Error (RMSE)**.")
@@ -144,18 +149,16 @@ elif page == "Prediction App":
 
     st.markdown("---")
     st.header("Why this prediction? (Live SHAP Analysis)")
-
     if st.session_state.shap_plot is not None:
         st.markdown("This chart explains how each factor influenced this specific prediction, starting from a baseline prediction and showing what pushed the time higher (red) or lower (blue).")
         st_shap(st.session_state.shap_plot, height=200)
-
         with st.expander("How to read this chart 🤔"):
             st.markdown("""
             This is a SHAP (SHapley Additive exPlanations) Force Plot, which breaks down a single prediction.
-            * **Base Value:** This is the average prediction the model would make if it had no information.
-            * **Red Bars (Higher 🔺):** These are the features that pushed the prediction value **higher** than the base value. The longer the bar, the stronger the effect.
-            * **Blue Bars (Lower 🔻):** These are the features that pushed the prediction value **lower** than the base value.
-            * **Final Prediction:** The final number shown on the chart is the model's output for this specific set of inputs.
+            * **Base Value:** This is the average prediction the model makes across all the data (around 24.5 minutes).
+            * **Red Bars (Higher 🔺):** These are the features that pushed the prediction value **higher** (longer time) than the base value. The longer the bar, the stronger the effect.
+            * **Blue Bars (Lower 🔻):** These are the features that pushed the prediction value **lower** (shorter time) than the base value.
+            * **Final Prediction (f(x)):** The final bold number on the chart is the model's output for this specific set of inputs.
             """)
     else:
         st.info("Click 'Predict' to see the model's explanation here.")
@@ -165,10 +168,8 @@ elif page == "Prediction App":
 # =========================================
 elif page == "Ethical Considerations":
     st.title("Ethical Considerations & Responsible AI")
-    st.markdown("""
-    This document outlines the principles of responsible AI applied to this project to ensure it is fair, transparent, and accountable.
-    """)
-
+    st.markdown("This document outlines the principles of responsible AI applied to this project to ensure it is fair, transparent, and accountable.")
+    
     st.header("1. Fairness")
     st.markdown("""
     **Objective:** Ensure the model does not produce systematically biased predictions against certain groups.
